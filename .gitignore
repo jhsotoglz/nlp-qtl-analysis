@@ -1,0 +1,30 @@
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb~
+
+# Outputs
+outputs/*.tmp
+outputs/*.log
+outputs/*.bak
+
+# Data (class datasets should not be tracked)
+data/
+*.json
+*.txt
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+*.swp

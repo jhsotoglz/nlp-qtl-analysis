@@ -1,3 +1,7 @@
+# Script file for Task 3 part 1
+# Frequency
+# TF-IDF
+
 from pathlib import Path
 from collections import Counter
 from wordcloud import WordCloud

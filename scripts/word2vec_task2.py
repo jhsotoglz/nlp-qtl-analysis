@@ -1,3 +1,6 @@
+# Script file for Task 2
+# Training a word2vec model according to assignment parameters
+
 from pathlib import Path
 import json
 from gensim.models import Word2Vec

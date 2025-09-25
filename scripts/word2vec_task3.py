@@ -1,8 +1,12 @@
+# Script file for task 3 part 2
+# Training word2vec model according to the assignment parameters
+
 from pathlib import Path
 import json
 from gensim.models import Word2Vec
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+# Path aligned to preprocessing and phrase script outputs
 BASE_DIR = Path(__file__).resolve().parent.parent
 PHRASED_JSON = BASE_DIR / "outputs" / "tokenized_abstracts_phrased.json"
 OUT_DIR = BASE_DIR / "outputs"

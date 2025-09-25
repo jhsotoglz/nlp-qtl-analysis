@@ -2,46 +2,59 @@ from pathlib import Path
 import json
 from gensim.models.phrases import Phrases, Phraser
 
-BASE_DIR   = Path(__file__).resolve().parent.parent
-IN_JSON    = BASE_DIR / "outputs" / "tokenized_abstracts.json"   # from preprocessing
-OUT_DIR    = BASE_DIR / "outputs"
-OUT_TXT    = OUT_DIR / "tokenized_abstracts_phrased.txt"
-OUT_JSON   = OUT_DIR / "tokenized_abstracts_phrased.json"
+BASE_DIR = Path(__file__).resolve().parent.parent
+IN_JSON  = BASE_DIR / "outputs" / "corpus_tokens.json"   # from preprocessing
+OUT_DIR  = BASE_DIR / "outputs"
+OUT_TXT  = OUT_DIR / "tokenized_abstracts_phrased.txt"
+OUT_JSON = OUT_DIR / "tokenized_abstracts_phrased.json"
 
-def load_tokens():
+# Different phrase detection parameters to compare:
+
+# Conservative few, but very strong phrases
+# MIN_COUNT, THRESHOLD = 10, 10.0
+
+# Balanced, a good middle ground
+# MIN_COUNT, THRESHOLD = 8, 8.0
+
+# Aggressive, has more phrases but some noise
+MIN_COUNT, THRESHOLD = 5, 5.0
+
+# More aggressive with lots of phrases but lots of noise
+# MIN_COUNT, THRESHOLD = 3, 3.0
+
+DELIM = "_"  # how phrases are joined
+
+def load_tokens() -> list[list[str]]:
     if not IN_JSON.exists():
         raise SystemExit(f"Missing {IN_JSON}. Run scripts/preprocess.py first.")
-    return json.loads(IN_JSON.read_text(encoding="utf-8"))
+    with IN_JSON.open("r", encoding="utf-8") as f:
+        return json.load(f)
 
-def save_outputs(token_lists):
+def save_outputs(token_lists: list[list[str]]) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    # text (one doc per line)
     with OUT_TXT.open("w", encoding="utf-8") as f:
         for toks in token_lists:
             f.write(" ".join(toks) + "\n")
-    # json (list[list[str]])
-    OUT_JSON.write_text(json.dumps(token_lists), encoding="utf-8")
+    with OUT_JSON.open("w", encoding="utf-8") as f:
+        json.dump(token_lists, f)
+    print("Saved phrased corpus:")
+    print(" -", OUT_TXT)
+    print(" -", OUT_JSON)
 
 def main():
     token_lists = load_tokens()
 
     # Learn bigrams
-    # min_count: ignore rare co-occurrences; threshold: higher → fewer phrases (more conservative)
-    bigram = Phrases(token_lists, min_count=10, threshold=10.0, delimiter=b"_")
+    bigram = Phrases(token_lists, min_count=MIN_COUNT, threshold=THRESHOLD, delimiter=DELIM)
     bigram_phraser = Phraser(bigram)
-
-    # Transform corpus with bigrams
     token_lists_bi = [bigram_phraser[doc] for doc in token_lists]
 
-    # (Optional) Learn trigrams on top of bigrams (often helpful in scientific text)
-    trigram = Phrases(token_lists_bi, min_count=10, threshold=10.0, delimiter=b"_")
+    # Learn trigrams on top of bigrams
+    trigram = Phrases(token_lists_bi, min_count=MIN_COUNT, threshold=THRESHOLD, delimiter=DELIM)
     trigram_phraser = Phraser(trigram)
-
     token_lists_tri = [trigram_phraser[doc] for doc in token_lists_bi]
 
     save_outputs(token_lists_tri)
-
-    print(f"Saved phrased corpus:\n - {OUT_TXT}\n - {OUT_JSON}")
 
 if __name__ == "__main__":
     main()

@@ -1,3 +1,6 @@
+# This is the preprocessing script file that completes all the data preprocessing requirements
+# File path: scripts/preprocess.py
+
 import json
 from pathlib import Path
 import nltk
@@ -15,13 +18,13 @@ OUTPUT_DIR = BASE_DIR / "outputs"
 # TRAIT_DICT = Path("/work/classtmp/NLP/project_data/Trait_dictionary.txt")
 
 def load_qtl_json(path):
-    """ Load the QTL_text.json dataset. """
+    # Loading the QTL_text.json dataset. 
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)     # This will return a List[dict] with Keys: PMID, Journal, Title, Abstract, and Category fields
     
 def preprocess_text(text: str, stop_word_set: set[str]) -> list[str]:
-    """ Pre-processing requirements: Split sentences, tokenize, lowercase, remove stop words and unwanted characters. """
-    tokens = []
+    # Pre-processing requirements: Split sentences, tokenize, lowercase, remove stop words and unwanted characters.
+    tokens: list[str] = []
     for sentence in sent_tokenize(text):
         for token in word_tokenize(sentence):
             word = token.lower()
@@ -29,30 +32,52 @@ def preprocess_text(text: str, stop_word_set: set[str]) -> list[str]:
                 tokens.append(word)
     return tokens
 
+def ensure_nltk_data():
+    # Ensure required NLTK resources (punkt tokenizer + stopwords list) are downloaded
+    try: 
+        nltk.data.find("tokenizers/punkt")
+    except LookupError: 
+        nltk.download("punkt", quiet=True)
+
+    try: 
+        nltk.data.find("corpora/stopwords")
+    except LookupError: 
+        nltk.download("stopwords", quiet=True)
+
 def main():
-    # Creates the outputs/ and prepares the NLTK resources
+    # Make sure the outputs/ folder exists or create it if not
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    nltk.download("punkt", quiet=True)
-    nltk.download("stopwords", quiet=True)
+
+    
+    ensure_nltk_data()
+
+    # Load English stop words into a set for fast checks
     stop_word_set = set(stopwords.words("english"))
 
-    # Pre-processing requirement of only getting abstracts with Category == "1"
+    # Load the full dataset from QTL_text.json
     data = load_qtl_json(QTL_JSON)
+
+    # Keep only abstracts where Category == "1"
     abstracts = [d.get("Abstract", "") for d in data if str(d.get("Category", "")).strip() == "1"]
 
-    docs_tokens = [preprocess_text(abs_text, stop_word_set) for abs_text in abstracts]
+    # Preprocess each abstract: sentence split → tokenize → lowercase → remove stopwords/non-alpha
+    tokenized_abstracts = [preprocess_text(abs_text, stop_word_set) for abs_text in abstracts]
 
-    with open(OUTPUT_DIR / "curous_tokens.txt", "w", encoding="utf-8") as f:
-        for tokens in docs_tokens:
-            f.write(" ".join(tokens) + "\n")
+    # Save as a plain text file: one document per line, tokens separated by spaces
+    txt_path = OUTPUT_DIR / "corpus_tokens.txt"
+    with open(txt_path, "w", encoding="utf-8") as f:
+        for toks in tokenized_abstracts:
+            f.write(" ".join(toks) + "\n")
 
-    with open(OUTPUT_DIR / "curous_tokens.txt", "w", encoding="utf-8") as f:
-        json.dump(docs_tokens, f)
+    # Save as JSON: a list of lists (each inner list = tokens for one abstract)
+    json_path = OUTPUT_DIR / "corpus_tokens.json"
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(tokenized_abstracts, f)
 
-    print(f"Docs kept (Category==1): {len(docs_tokens)}")
-    print(f"Saved: {OUTPUT_DIR / 'corpus_tokens.txt'}")
-    print(f"Saved: {OUTPUT_DIR / 'corpus_tokens.json'}")
+    # Print summary info for quick verification
+    print(f"Docs kept (Category==1): {len(tokenized_abstracts)}")
+    print(f"Saved: {txt_path}")
+    print(f"Saved: {json_path}")
 
 if __name__ == "__main__":
     main()
-    

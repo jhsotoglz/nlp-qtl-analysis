@@ -1,5 +1,5 @@
-# Script file for Task 2
-# Training a word2vec model according to assignment parameters
+# Task 2
+# Training a word2vec model
 
 from pathlib import Path
 import json
@@ -13,11 +13,10 @@ OUT_DIR  = BASE_DIR / "outputs"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 def load_token_lists() -> list[list[str]]:
-    """Load tokenized abstracts from JSON file."""
     if not TOK_JSON.exists():
         raise SystemExit(f"Missing {TOK_JSON}. Run scripts/preprocess.py first.")
     with open(TOK_JSON, "r", encoding="utf-8") as f:
-        return json.load(f)  # List[List[str]]
+        return json.load(f)
 
 def train_word2vec(sentences: list[list[str]]) -> Word2Vec:
     """

@@ -1,28 +1,36 @@
+# Phrase extraction for Task 3:
+# 1) load preprocessed data
+# 2) learn bigrams
+# 3) apply bigram model to corpus
+# 4) learn trigrams
+# 5) apply trigram model to corpus
+# 6) save new phrased corpus joined by "_" )
+
 from pathlib import Path
 import json
 from gensim.models.phrases import Phrases, Phraser
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-IN_JSON  = BASE_DIR / "outputs" / "corpus_tokens.json"   # from preprocessing
+IN_JSON  = BASE_DIR / "outputs" / "corpus_tokens.json"   # From preprocessing
 OUT_DIR  = BASE_DIR / "outputs"
 OUT_TXT  = OUT_DIR / "tokenized_abstracts_phrased.txt"
 OUT_JSON = OUT_DIR / "tokenized_abstracts_phrased.json"
 
-# Different phrase detection parameters to compare:
+#  I tested different phrase detection parameters to compare:
 
 # Conservative few, but very strong phrases
 # MIN_COUNT, THRESHOLD = 10, 10.0
 
 # Balanced, a good middle ground
-# MIN_COUNT, THRESHOLD = 8, 8.0
+MIN_COUNT, THRESHOLD = 8, 8.0
 
 # Aggressive, has more phrases but some noise
-MIN_COUNT, THRESHOLD = 5, 5.0
+#MIN_COUNT, THRESHOLD = 5, 5.0
 
 # More aggressive with lots of phrases but lots of noise
 # MIN_COUNT, THRESHOLD = 3, 3.0
 
-DELIM = "_"  # how phrases are joined
+DELIM = "_"  # This is how the phrases are joined
 
 def load_tokens() -> list[list[str]]:
     if not IN_JSON.exists():

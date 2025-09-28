@@ -6,11 +6,11 @@ The goal is to practice key NLP methods such as word cloud visualization, Word2V
 ## It follows the assignment tasks:
 
 - **Preprocessing:**
-  0. Keep only abstracts with `Category == "1"`.
-  1. Sentence split.
-  2. Tokenize.
-  3. Lowercase.
-  4. Remove stopwords and non-alphabetic tokens.
+  - Keep only abstracts with `Category == "1"`.
+  - Sentence split.
+  - Tokenize.
+  - Lowercase.
+  - Remove stopwords and non-alphabetic tokens.
 
 - **Task 1:** Word cloud visualization
   - Frequency-based word cloud (`freq_wordcloud.png`)
@@ -51,22 +51,22 @@ scripts/
 python scripts/preprocess.py
 ```
 Outputs:
-- `outputs/corpus_tokens.txt` (space-separated tokens for each abstract)
-- `outputs/corpus_tokens.json` (list of token lists)
+- `outputs/corpus_tokens.txt` tokens separated by space for each abstract
+- `outputs/corpus_tokens.json` a list of token lists
 
 ---
 
 ### Task 1 – Word Clouds
 ```bash
-python scripts/task1_wordcloud.py
+python scripts/task1_wordclouds.py
 ```
 Outputs:
-- `outputs/freq_wordcloud.png`
-- `outputs/tfidf_wordcloud.png`
+- `outputs/freq_wordcloud_task1.png`
+- `outputs/tfidf_wordcloud_task1.png`
 
 ---
 
-### Task 2 – Word2Vec + TF-IDF Neighbors
+### Task 2 – Word2Vec and TF-IDF Neighbors
 ```bash
 python scripts/task2_word2vec.py
 ```
@@ -75,20 +75,20 @@ Outputs:
 
 ---
 
-### Task 3 – Phrases + Repeat
-Extract bigrams/trigrams:
+### Task 3 – Phrases and Repeat Previous Tasks
+Get biagrams and trigrams:
 ```bash
 python scripts/phrases.py
 ```
 
 Generate word clouds:
 ```bash
-python scripts/task3_wordcloud_phrased.py
+python scripts/task3_wordclouds.py
 ```
 
 Train Word2Vec and neighbors:
 ```bash
-python scripts/task3_word2vec_phrased.py
+python scripts/task3_word2vec.py
 ```
 
 Outputs:

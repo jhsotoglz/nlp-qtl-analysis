@@ -39,7 +39,7 @@ def main():
     counts = Counter()
     for line in docs:
         counts.update(line.split())  # tokens are space-separated
-    wordcloud_freq(counts, OUT_DIR / "freq_wordcloud.png")
+    wordcloud_freq(counts, OUT_DIR / "freq_wordcloud_task1.png")
 
     # TF-IDF–based word cloud
     vec = TfidfVectorizer(
@@ -56,11 +56,11 @@ def main():
     tfidf_avg = (X.sum(axis=0) / X.getnnz(axis=0)).A1
     tfidf_weights = {vocab[i]: float(tfidf_avg[i]) for i in range(len(vocab))}
 
-    wordcloud_freq(tfidf_weights, OUT_DIR / "tfidf_wordcloud.png")
+    wordcloud_freq(tfidf_weights, OUT_DIR / "tfidf_wordcloud_task1.png")
 
     print("Saved:")
-    print(" -", OUT_DIR / "freq_wordcloud.png")
-    print(" -", OUT_DIR / "tfidf_wordcloud.png")
+    print(" -", OUT_DIR / "freq_wordcloud_task1.png")
+    print(" -", OUT_DIR / "tfidf_wordcloud_task1.png")
 
 if __name__ == "__main__":
     main()

@@ -66,7 +66,7 @@ def main():
         for term in top10:
             if term in model.wv.key_to_index:
                 sims = model.wv.most_similar(term, topn=20)
-                f.write(f"\n[{term}]\n")
+                f.write(f"\n------ {term} ------\n")
                 for w, score in sims:
                     f.write(f"  {w:20s}  {score:.4f}\n")
             else:

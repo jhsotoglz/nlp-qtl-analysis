@@ -13,10 +13,9 @@ BASE_DIR  = Path(__file__).resolve().parent.parent
 OUT_DIR   = BASE_DIR / "outputs"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-INPUT_TXT = OUT_DIR / "tokenized_abstracts_phrased.txt"
+INPUT_TXT = OUT_DIR / "corpus_tokens_phrased.txt"
 
 def load_docs() -> list[str]:
-    """Load phrased abstracts (one per line, tokens space-separated)."""
     if not INPUT_TXT.exists():
         raise SystemExit(f"Missing {INPUT_TXT}. Run scripts/phrases.py first.")
     return [
@@ -26,7 +25,6 @@ def load_docs() -> list[str]:
     ]
 
 def wordcloud_freq(freqs: dict[str, float], out_path: Path):
-    """Generate and save a word cloud from frequencies."""
     wc = WordCloud(
         width=800, height=800, background_color="white",
         collocations=False,     # prevent auto-joining into bigrams

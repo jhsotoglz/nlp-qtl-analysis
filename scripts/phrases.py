@@ -13,8 +13,8 @@ from gensim.models.phrases import Phrases, Phraser
 BASE_DIR = Path(__file__).resolve().parent.parent
 IN_JSON  = BASE_DIR / "outputs" / "corpus_tokens.json"   # From preprocessing
 OUT_DIR  = BASE_DIR / "outputs"
-OUT_TXT  = OUT_DIR / "tokenized_abstracts_phrased.txt"
-OUT_JSON = OUT_DIR / "tokenized_abstracts_phrased.json"
+OUT_TXT  = OUT_DIR / "corpus_tokens_phrased.txt"
+OUT_JSON = OUT_DIR / "corpus_tokens_phrased.json"
 
 #  I tested different phrase detection parameters to compare:
 

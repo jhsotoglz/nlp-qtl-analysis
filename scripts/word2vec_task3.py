@@ -12,7 +12,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Project paths aligned to preprocessing and phrases outputs
 BASE_DIR = Path(__file__).resolve().parent.parent
-PHRASED_JSON = BASE_DIR / "outputs" / "tokenized_abstracts_phrased.json"
+PHRASED_JSON = BASE_DIR / "outputs" / "corpus_tokens_phrased.json"
 OUT_DIR = BASE_DIR / "outputs"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -66,7 +66,7 @@ def main():
         for term in top10:
             if term in model.wv.key_to_index:
                 sims = model.wv.most_similar(term, topn=20)
-                f.write(f"\n[{term}]\n")
+                f.write(f"\n------ {term} ------\n")
                 for w, score in sims:
                     f.write(f"  {w:30s}  {score:.4f}\n")
             else:

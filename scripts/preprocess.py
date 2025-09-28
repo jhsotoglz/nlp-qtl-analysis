@@ -13,13 +13,14 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 
 # Paths to local datasets
 BASE_DIR = Path(__file__).resolve().parent.parent
-QTL_JSON = BASE_DIR / "datasets" / "QTL_text.json"
-TRAIT_DICT = BASE_DIR / "datasets" / "Trait_dictionary.txt"
+# QTL_JSON = BASE_DIR / "datasets" / "QTL_text.json"
+# TRAIT_DICT = BASE_DIR / "datasets" / "Trait_dictionary.txt"
+
 OUTPUT_DIR = BASE_DIR / "outputs"
 
 # Paths to datasets on NOVA
-# QTL_JSON = Path("/work/classtmp/NLP/project_data/QTL_text.json")
-# TRAIT_DICT = Path("/work/classtmp/NLP/project_data/Trait_dictionary.txt")
+QTL_JSON = Path("/work/classtmp/NLP/project_data/QTL_text.json")
+TRAIT_DICT = Path("/work/classtmp/NLP/project_data/Trait_dictionary.txt")
 
 def load_qtl_json(path):
     with open(path, "r", encoding="utf-8") as f:

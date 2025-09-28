@@ -28,3 +28,16 @@ data/
 .DS_Store
 Thumbs.db
 *.swp
+
+# Report
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.bib
+*.bst
+*.sty
+*.bbl
+*.blg
+*.out
+*.synctex.gz

@@ -1,9 +1,11 @@
 # COM S 5790 – NLP Project 1
 
-This project implements preprocessing, word cloud generation, and Word2Vec training on a corpus of QTL-related research abstracts.  
-It follows the assignment tasks:
+This is the first project of the class COM S 5790, where we apply Natural Language Processing techniques to a collection of data. 
+The goal is to practice key NLP methods such as word cloud visualization, Word2Vec embeddings, and phrase extraction.
 
-- **Preprocessing (shared by Tasks 1–3):**
+## It follows the assignment tasks:
+
+- **Preprocessing:**
   0. Keep only abstracts with `Category == "1"`.
   1. Sentence split.
   2. Tokenize.
@@ -30,38 +32,15 @@ It follows the assignment tasks:
 ## Repository Structure
 
 ```
-datasets/          # Input data (QTL_text.json, Trait_dictionary.txt) -- NOT committed
 outputs/           # All generated results (txt, json, png)
 scripts/
-  preprocess.py    # Preprocessing pipeline
+  preprocess.py    
   task1_wordcloud.py
   task2_word2vec.py
-  phrases.py       # Extract bigrams/trigrams
+  phrases.py     
   task3_wordcloud_phrased.py
   task3_word2vec_phrased.py
 ```
-
----
-
-## Setup
-
-1. Create a virtual environment (local or Nova OnDemand):
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
-```
-
-2. Make sure you have NLTK data installed (the scripts will auto-download `punkt` and `stopwords` if missing).
-
-3. Place the input datasets in:
-
-- **Local:** `datasets/QTL_text.json`, `datasets/Trait_dictionary.txt`
-- **Nova OnDemand:** `/work/classtmp/NLP/project_data/`
-
-(Datasets are private and should **not** be committed to GitHub.)
 
 ---
 
@@ -118,10 +97,3 @@ Outputs:
 - `outputs/phrased_freq_wordcloud.png`
 - `outputs/phrased_tfidf_wordcloud.png`
 - `outputs/task3_word2vec_phrased.txt`
-
----
-
-## Notes
-- Phrase detection parameters (`MIN_COUNT`, `THRESHOLD`) in `phrases.py` can be adjusted to control how aggressively phrases are extracted. Default: `MIN_COUNT=8`, `THRESHOLD=8.0`.
-- Random seeds (`random_state` for word clouds, `seed` for Word2Vec) are set for reproducibility.
-- Outputs are always written to the `outputs/` folder for clarity.

@@ -55,7 +55,8 @@ expressions and produced clearer, more meaningful embeddings.
 The dataset was first filtered to only include abstracts with Category = 1. 
 Each abstract was sentence-split, tokenized, lowercased, and cleaned by removing stopwords and non-alphabetic 
 tokens using NLTK. The result was saved both as plain text for word clouds and as token lists in JSON for 
-Word2Vec tasks respectively.
+Word2Vec tasks respectively. This step ensured consistency across all later tasks and reduced noise 
+from irrelevant or low value tokens.
 
 \subsection{Phrase Mining}
 To capture multiword terms, I used the \texttt{gensim} library for phrase mining. 
@@ -73,9 +74,11 @@ many random ones. This choice was important because phrase quality directly infl
 and the results from Word2Vec.
 
 \subsection{TF--IDF and Word Clouds}
-From both the unigram and phrased corpus I computed frequency counts and TF--IDF scores. 
+From both the single word and phrased corpus I computed frequency counts and TF--IDF scores. 
 The top-ranked terms were visualized as word clouds, which made it easy to compare terms that 
-are simply common versus those that are more distinctive.
+are common against those that are more distinctive. This provided a clear way to see how 
+phrase mining and weighting methods highlight different aspects of the corpus.
+
 
 \subsection{Word2Vec}
 I trained Word2Vec models on both the words and phrased corpus using CBOW with a vector size of 100, a window of 5,

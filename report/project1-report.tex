@@ -41,10 +41,10 @@
 \maketitle
 
 \begin{abstract}
-This first project for COM S 5790, Natural Language Processing applies basic NLP and word embedding methods 
-to a given dataset. We preprocessed the text by tokenizing it, removing stopwords, and using phrase mining. 
+This first project for COM S 5790, asks us to apply basic NLP methods to a given dataset. 
+We were required to preprocessed the text by tokenizing it, removing stopwords, and using phrase mining. 
 From this, we created frequency- and TF--IDF-based word clouds to highlight key terms. 
-For semantic analysis, we trained Word2Vec models on both words and phrases to find the nearest neighbors 
+Similarly, we were asked to train Word2Vec models on both words and phrases to find the nearest neighbors 
 of top TF--IDF terms. Phrase mining with \texttt{gensim}'s bigram and trigram models helped capture multiword 
 expressions and produced clearer, more meaningful embeddings.
 \end{abstract}
@@ -52,15 +52,15 @@ expressions and produced clearer, more meaningful embeddings.
 \section{Methods}
 
 \subsection{Preprocessing}
-The dataset was first filtered to only include abstracts with Category = 1. 
+The dataset was filtered to only include abstracts with Category = 1. 
 Each abstract was sentence-split, tokenized, lowercased, and cleaned by removing stopwords and non-alphabetic 
 tokens using NLTK. The result was saved both as plain text for word clouds and as token lists in JSON for 
-Word2Vec tasks respectively. This step ensured consistency across all later tasks and reduced noise 
+Word2Vec tasks respectively. This step ensured consistency across all the other tasks and reduced noise 
 from irrelevant or low value tokens.
 
 \subsection{Phrase Mining}
 To capture multiword terms, I used the \texttt{gensim} library for phrase mining. 
-I first trained a bigram model on the tokenized corpus with a minimum count of 8 and a threshold of 8.0. 
+I trained a bigram model on the tokenized corpus with a minimum count of 8 and a threshold of 8.0. 
 This combined pairs of words that often appeared together. 
 Then, I trained a trigram model on top of the bigrams to join longer expressions. 
 In both cases, phrases were written with underscores, such as \textit{carcass\_composition}, 
@@ -68,7 +68,7 @@ In both cases, phrases were written with underscores, such as \textit{carcass\_c
 
 I also tested different parameter values. 
 Stricter settings 10, 10.0 created fewer but very strong phrases, while looser ones 5, 5.0 or 3, 3.0 
-created more phrases but added noise. The balanced setting 8, 8.0 worked best, since it kept important 
+created more phrases but added noise. The balanced setting 8, 8.0 worked the best, since it kept important 
 domain phrases like \textit{quantitative\_trait\_locus} and \textit{meat\_quality} without introducing too 
 many random ones. This choice was important because phrase quality directly influenced the TF--IDF terms 
 and the results from Word2Vec.
@@ -88,17 +88,17 @@ top TF--IDF terms and compared how the results changed when using phrases instea
 \section{Main Results}
 
 \subsection{Word Clouds -- Task 1}
-The frequency based word cloud was dominated by very common research terms such as \textit{qtl}, 
+The frequency based word cloud had mostly common research terms such as \textit{qtl}, 
 \textit{traits}, \textit{study}, and \textit{genes}. These words appear often across many abstracts but do not 
 point to specific findings. In contrast, the TF--IDF word cloud highlighted more distinctive domain terms, 
 including \textit{ascites}, \textit{earlobe}, \textit{pleurisy}, and \textit{ketosis}. This shows how TF--IDF can 
-surface technical vocabulary that is less frequent overall but more informative for understanding the dataset. 
+show more technical vocabulary that is less frequent overall but more informative for understanding the dataset. 
 
-(see Appendix, Figures~\ref{fig:freq_wc_task1} and~\ref{fig:tfidf_wc_task1}).  
+(See Appendix, Figure 1).  
 
 
 \subsection{Word2Vec -- Task 2}
-The Word2Vec model was trained on the corpus using CBOW with a vector size of 100, a window of 5, 
+As mentioned before, the Word2Vec model was trained on the corpus using CBOW with a vector size of 100, a window of 5, 
 and a minimum count of 10. To evaluate the model, I looked at the nearest neighbors of the top TF--IDF terms.  
 
 One clear example was \textit{ascites}, which refers to the buildup of fluid in the abdomen and is often 
@@ -126,7 +126,7 @@ different parameter settings for \texttt{min\_count} and \texttt{threshold}. Loo
 phrases but also added noise, and stricter values gave very few. The balanced choice (8, 8.0) worked best 
 and helped the word clouds show some meaningful scientific terms instead of just single words.  
 
-(see Appendix, Figures~\ref{fig:freq_wc_task3} and~\ref{fig:tfidf_wc_task3}).  
+(See Appendix, Figure 2).  
 
 \subsection{Word2Vec -- Task 3}
 The Word2Vec model was trained again on the phrased corpus. The same parameters were used: 
@@ -134,19 +134,18 @@ CBOW, vector size 100, window size 5, and minimum count 10. I evaluated it the s
 in Task 2, by looking at the nearest neighbors of the top TF--IDF terms.  
 
 Some results showed improvements. For example, \textit{ascites} was now grouped with terms or technical 
-phrases like \textit{lesions} and \textit{pregnancy\_rate}, which are all linked to health. 
+phrases like \textit{lesions} and \textit{pregnancy\_rate}, which are linked to health. 
 This was more specific compared to the simpler words in Task 2.  
 
-These improvements were possible because of the phrase mining process in \texttt{phrases.py}. Again, the 
-balanced parameter setting of (8, 8.0) worked best compared to the others, directly influencing the phrased 
-Word2Vec neighborhoods and showing more meaningful connections than in Task 2.  
+ Again, the balanced parameter setting of (8, 8.0) worked best compared to the others, since it directly 
+ influenced the phrased Word2Vec neighborhoods. It also showed real connections with technical meaning unlike Task 2.  
 
-Even with phrases, not all terms were useful. Abbreviations like \textit{lp} and \textit{ifc} still 
+However, even with phrases, not all terms were useful. Abbreviations like \textit{lp} and \textit{ifc} still 
 produced neighbors that were hard to interpret, and some words like \textit{abt} were skipped because 
 of their low frequency.  
 
 Overall, using the phrased corpus made the neighbors more meaningful by showing technical multiword terms, 
-especially in health contexts. However, rare abbreviations and terms were still limiting.  
+especially in health contexts. On the other hand, rare abbreviations and terms were still limiting.  
 
 Finally, I compared all extracted phrases against the trait dictionary using exact string matching. 
 Out of 22,719 trait entries, 282 matches were found. When the spaces were replaces with underscores 

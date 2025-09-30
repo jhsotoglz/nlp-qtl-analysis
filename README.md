@@ -33,6 +33,12 @@ The goal is to practice key NLP methods such as word cloud visualization, Word2V
 
 ```
 outputs/           # All generated results (txt, json, png)
+Project1.pdf       # Project requirements file
+README.md
+report/
+  project1-report.pfd   # Project 1 report file
+  project1-report.tex
+requirements.txt
 scripts/
   preprocess.py    
   task1_wordcloud.py

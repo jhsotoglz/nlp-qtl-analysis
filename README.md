@@ -50,7 +50,7 @@ scripts/
 ```bash
 source .venv/bin/activate
 ```
-(Make sure you are in the project root, e.g., /work/classtmp/jhsoto/nlp-qtl-analysis/ on Nova.)
+(Make sure you are in the project root, /work/classtmp/jhsoto/nlp-qtl-analysis/ on Nova.)
 
 ### Preprocessing
 ```bash

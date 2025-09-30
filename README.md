@@ -52,11 +52,17 @@ scripts/
 
 ## How to Run
 
+### Project root
+
+Make sure you are in the project root on Nova.
+```bash
+cd /work/classtmp/jhsoto/nlp-qtl-analysis/
+```
+
 ### Activate virtual environment
 ```bash
 source .venv/bin/activate
 ```
-(Make sure you are in the project root, /work/classtmp/jhsoto/nlp-qtl-analysis/ on Nova.)
 
 ### Preprocessing
 ```bash

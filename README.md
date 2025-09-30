@@ -46,6 +46,12 @@ scripts/
 
 ## How to Run
 
+### Activate virtual environment
+```bash
+source .venv/bin/activate
+```
+(Make sure you are in the project root, e.g., /work/classtmp/jhsoto/nlp-qtl-analysis/ on Nova.)
+
 ### Preprocessing
 ```bash
 python scripts/preprocess.py
@@ -91,7 +97,10 @@ Train Word2Vec and neighbors:
 python scripts/task3_word2vec.py
 ```
 
-Outputs:
+Outputs: 
+
+Outputs will include the new word clouds and Word2Vec results, and if the project is run end-to-end, the preprocessed files for words and phrases will also appear in outputs/.
+
 - `outputs/corpus_tokens_phrased.txt`
 - `outputs/corpus_tokens_phrased.json`
 - `outputs/phrased_freq_wordcloud.png`
